@@ -1,0 +1,421 @@
+*************************************************************
+FileName = PCB.GBR
+AutoAperture = True
+*************************************************************
+Generating : Top Layer
+      File : PCB.GTL
+
+    Adding Layer      : Top Layer
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D10
+    D11
+    D12
+    D13
+    D14
+    D15
+    D16
+    D17
+    D18
+    D19
+    D20
+    D21
+    D22
+    D23
+    D24
+    D25
+    D26
+    D27
+    D28
+    D29
+    D30
+    D31
+    D32
+    D33
+    D34
+    D35
+*************************************************************
+
+*************************************************************
+Generating : Bottom Layer
+      File : PCB.GBL
+
+    Adding Layer      : Bottom Layer
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D29
+    D30
+    D32
+    D33
+    D34
+    D35
+    D36
+*************************************************************
+
+*************************************************************
+Generating : Bottom Pad Master
+      File : PCB.GPB
+
+    Adding Layer      : Bottom Layer
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D32
+    D33
+    D34
+    D35
+    D36
+*************************************************************
+
+*************************************************************
+Generating : Top Pad Master
+      File : PCB.GPT
+
+    Adding Layer      : Top Layer
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D10
+    D11
+    D12
+    D13
+    D14
+    D15
+    D16
+    D17
+    D18
+    D19
+    D20
+    D21
+    D22
+    D23
+    D24
+    D25
+    D26
+    D27
+    D28
+    D32
+    D33
+    D34
+    D35
+*************************************************************
+
+*************************************************************
+Generating : Top Overlay
+      File : PCB.GTO
+
+    Adding Layer      : Top Overlay
+
+
+Used DCodes :
+    D37
+    D38
+    D39
+    D40
+    D41
+    D42
+    D43
+*************************************************************
+
+*************************************************************
+Generating : Top Paste
+      File : PCB.GTP
+
+    Adding Layer      : Top Paste
+
+    Adding Layer      : Top Layer
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D10
+    D11
+    D12
+    D13
+    D14
+    D15
+    D16
+    D17
+    D18
+    D19
+    D20
+    D21
+    D22
+    D23
+    D24
+    D25
+    D26
+    D27
+    D28
+*************************************************************
+
+*************************************************************
+Generating : Top Solder
+      File : PCB.GTS
+
+    Adding Layer      : Top Solder
+
+    Adding Layer      : Top Layer
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D44
+    D45
+    D46
+    D47
+    D48
+    D49
+    D50
+    D51
+    D52
+    D53
+    D54
+    D55
+    D56
+    D57
+    D58
+    D59
+    D60
+    D61
+    D62
+    D63
+    D64
+    D65
+    D66
+    D67
+*************************************************************
+
+*************************************************************
+Generating : Bottom Solder
+      File : PCB.GBS
+
+    Adding Layer      : Bottom Solder
+
+    Adding Layer      : Bottom Layer
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D63
+    D64
+    D65
+    D66
+    D67
+    D68
+*************************************************************
+
+*************************************************************
+Generating : Bottom Paste
+      File : PCB.GBP
+
+    Adding Layer      : Bottom Paste
+
+    Adding Layer      : Bottom Layer
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D36
+*************************************************************
+
+*************************************************************
+Generating : Bottom Overlay
+      File : PCB.GBO
+
+    Adding Layer      : Bottom Overlay
+
+
+Used DCodes :
+*************************************************************
+
+*************************************************************
+Generating : Keep-Out Layer
+      File : PCB.GKO
+
+    Adding Layer      : Keep-Out Layer
+
+
+Used DCodes :
+    D29
+*************************************************************
+
+*************************************************************
+Generating : Outline
+      File : PCB.Outline
+
+    Adding Layer      : Outline
+
+
+Used DCodes :
+    D29
+*************************************************************
+
+*************************************************************
+Generating : Assembly Text Top
+      File : PCB.Assembly Text Top
+
+    Adding Layer      : Assembly Text Top
+
+
+Used DCodes :
+*************************************************************
+
+*************************************************************
+Generating : Assembly Text Bottom
+      File : PCB.Assembly Text Bottom
+
+    Adding Layer      : Assembly Text Bottom
+
+
+Used DCodes :
+    D69
+    D70
+*************************************************************
+
+*************************************************************
+Generating : Assembly Top
+      File : PCB.Assembly Top
+
+    Adding Layer      : Assembly Top
+
+
+Used DCodes :
+    D43
+    D71
+*************************************************************
+
+*************************************************************
+Generating : Assembly Bottom
+      File : PCB.Assembly Bottom
+
+    Adding Layer      : Assembly Bottom
+
+
+Used DCodes :
+*************************************************************
+
+*************************************************************
+Generating : Dimensions Top
+      File : PCB.Dimensions Top
+
+    Adding Layer      : Dimensions Top
+
+
+Used DCodes :
+    D38
+*************************************************************
+
+*************************************************************
+Generating : Dimensions Bottom
+      File : PCB.Dimensions Bottom
+
+    Adding Layer      : Dimensions Bottom
+
+
+Used DCodes :
+*************************************************************
+
+*************************************************************
+Generating : 3D Top
+      File : PCB.3D Top
+
+    Adding Layer      : 3D Top
+
+
+Used DCodes :
+    D43
+    D72
+*************************************************************
+
+*************************************************************
+Generating : 3D Bottom
+      File : PCB.3D Bottom
+
+    Adding Layer      : 3D Bottom
+
+
+Used DCodes :
+*************************************************************
+
+*************************************************************
+Generating : Courtyard Top
+      File : PCB.Courtyard Top
+
+    Adding Layer      : Courtyard Top
+
+
+Used DCodes :
+    D43
+    D71
+    D73
+*************************************************************
+
+*************************************************************
+Generating : Courtyard Bottom
+      File : PCB.Courtyard Bottom
+
+    Adding Layer      : Courtyard Bottom
+
+
+Used DCodes :
+*************************************************************
+
+*************************************************************
+Generating : Test Points Top
+      File : PCB.Test Points Top
+
+    Adding Layer      : Test Points Top
+
+
+Used DCodes :
+*************************************************************
+
+*************************************************************
+Generating : Test Points Bottom
+      File : PCB.Test Points Bottom
+
+    Adding Layer      : Test Points Bottom
+
+
+Used DCodes :
+*************************************************************
+
+*************************************************************
+Generating : Multi-Layer
+      File : PCB.GML
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D32
+    D33
+    D34
+    D35
+*************************************************************
+
+*************************************************************
+Generating : Dielectric 1
+      File : PCB.1
+
+    Adding Layer      : Dielectric 1
+
+
+Used DCodes :
+*************************************************************
+

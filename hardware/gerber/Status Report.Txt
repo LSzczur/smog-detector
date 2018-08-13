@@ -1,0 +1,38 @@
+Output: Gerber Files
+Type  : Gerber
+From  : Variant [[No Variations]] of Project [SMOG Detector.PrjPcb]
+   Generated File[PCB.GTL]
+   Generated File[PCB.GBL]
+   Generated File[PCB.GPB]
+   Generated File[PCB.GPT]
+   Generated File[PCB.GTO]
+   Generated File[PCB.GTP]
+   Generated File[PCB.GTS]
+   Generated File[PCB.GBS]
+   Generated File[PCB.GBP]
+   Generated File[PCB.GBO]
+   Generated File[PCB.GKO]
+   Generated File[PCB.Outline]
+   Generated File[PCB.Assembly Text Top]
+   Generated File[PCB.Assembly Text Bottom]
+   Generated File[PCB.Assembly Top]
+   Generated File[PCB.Assembly Bottom]
+   Generated File[PCB.Dimensions Top]
+   Generated File[PCB.Dimensions Bottom]
+   Generated File[PCB.3D Top]
+   Generated File[PCB.3D Bottom]
+   Generated File[PCB.Courtyard Top]
+   Generated File[PCB.Courtyard Bottom]
+   Generated File[PCB.Test Points Top]
+   Generated File[PCB.Test Points Bottom]
+   Generated File[PCB.GML]
+   Generated File[PCB.1]
+   Generated File[PCB.RUL]
+   Generated File[PCB.EXTREP]
+   Generated File[PCB.REP]
+
+
+Files Generated   : 29
+Documents Printed : 0
+
+Finished Output Generation At 8:54:00 AM On 8/12/2018
