@@ -5,6 +5,7 @@
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
 #include <ESP8266WebServer.h>
+#include "FS.h"
 
 const char* ssid = "Szczur";
 const char* password = "soltysbosman";
@@ -140,6 +141,8 @@ Pmsx003::PmsStatus updateData()
 
 void setup(void)
 {
+  // Wait for connection
+  delay(10000);
   // Set debug serial
   Serial.begin(115200);
   while (!Serial) {};
@@ -162,6 +165,21 @@ void setup(void)
   // Start WiFi
   Serial.println("Start WiFi");
   initWiFi();
+
+  // Start SPIFFS
+  Serial.println("Start SPIFFS");
+  SPIFFS.begin();
+  File f = SPIFFS.open("/test.txt", "r");
+  if (f)
+  {
+    Serial.println("File open success");
+  }
+  else
+  {
+    Serial.println("File open failed");
+  }
+
+  f.println();
 }
 
 void loop(void)
