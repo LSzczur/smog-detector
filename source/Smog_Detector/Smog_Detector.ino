@@ -7,8 +7,8 @@
 #include <ESP8266WebServer.h>
 #include "FS.h"
 
-const char* ssid = "Szczur";
-const char* password = "soltysbosman";
+const char* ssid = "Wyspa Szczura";
+const char* password = "hejpiast";
 String page = "";
 String text = "";
 
