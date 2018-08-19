@@ -24,6 +24,20 @@ U8G2_SSD1327_MIDAS_128X128_F_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 14, /* data=*/ 
 
 ////////////////////////////////////////
 
+void sendDebugMsg(char str[])
+{
+  Serial.print("Trying to set ");
+  Serial.println(str);
+  
+  u8g2.clearBuffer();
+  u8g2.setFont(u8g2_font_logisoso16_tf);
+  u8g2.setCursor(0, 35);
+  u8g2.print("Trying to set");
+  u8g2.setCursor(0, 70);
+  u8g2.print(str);
+  u8g2.sendBuffer();
+}
+
 void initWiFi()
 {
   WiFi.begin(ssid, password); //begin WiFi connection
@@ -40,30 +54,32 @@ void initWiFi()
   Serial.print("IP address: ");
   Serial.println(WiFi.localIP());
 
-  server.on("/data.txt", []() {
-    text = (String)data[Pmsx003::PM2dot5];
-    server.send(200, "text/html", text);
-  });
-  server.on("/", []() {
-    page = "<h1>Sensor to Node MCU Web Server</h1><h1>Data:</h1> <h1 id=\"data\">""</h1>\r\n";
-    page += "<script>\r\n";
-    page += "var x = setInterval(function() {loadData(\"data.txt\",updateData)}, 1000);\r\n";
-    page += "function loadData(url, callback){\r\n";
-    page += "var xhttp = new XMLHttpRequest();\r\n";
-    page += "xhttp.onreadystatechange = function(){\r\n";
-    page += " if(this.readyState == 4 && this.status == 200){\r\n";
-    page += " callback.apply(xhttp);\r\n";
-    page += " }\r\n";
-    page += "};\r\n";
-    page += "xhttp.open(\"GET\", url, true);\r\n";
-    page += "xhttp.send();\r\n";
-    page += "}\r\n";
-    page += "function updateData(){\r\n";
-    page += " document.getElementById(\"data\").innerHTML = this.responseText;\r\n";
-    page += "}\r\n";
-    page += "</script>\r\n";
-    server.send(200, "text/html", page);
-  });
+  server.serveStatic("/", SPIFFS, "/");
+
+//  server.on("/data.txt", []() {
+//    text = (String)data[Pmsx003::PM2dot5];
+//    server.send(200, "text/html", text);
+//  });
+//  server.on("/", []() {
+//    page = "<h1>Sensor to Node MCU Web Server</h1><h1>Data:</h1> <h1 id=\"data\">""</h1>\r\n";
+//    page += "<script>\r\n";
+//    page += "var x = setInterval(function() {loadData(\"data.txt\",updateData)}, 1000);\r\n";
+//    page += "function loadData(url, callback){\r\n";
+//    page += "var xhttp = new XMLHttpRequest();\r\n";
+//    page += "xhttp.onreadystatechange = function(){\r\n";
+//    page += " if(this.readyState == 4 && this.status == 200){\r\n";
+//    page += " callback.apply(xhttp);\r\n";
+//    page += " }\r\n";
+//    page += "};\r\n";
+//    page += "xhttp.open(\"GET\", url, true);\r\n";
+//    page += "xhttp.send();\r\n";
+//    page += "}\r\n";
+//    page += "function updateData(){\r\n";
+//    page += " document.getElementById(\"data\").innerHTML = this.responseText;\r\n";
+//    page += "}\r\n";
+//    page += "</script>\r\n";
+//    server.send(200, "text/html", page);
+//  });
 
   server.begin();
   Serial.println("Web server started!");
@@ -141,33 +157,34 @@ Pmsx003::PmsStatus updateData()
 
 void setup(void)
 {
-  // Wait for connection
+  // Set OLED display
+  Serial.println("Set OLED");
+  SPI.begin();
+  u8g2.begin();
+  sendDebugMsg("Serial");
+  
+  // Temporary delay to run console
   delay(10000);
   // Set debug serial
   Serial.begin(115200);
   while (!Serial) {};
 
-  // Set OLED display
-  Serial.println("Set OLED");
-  SPI.begin();
-  u8g2.begin();
-
   // Attach an interrupt to button
-  //Serial.println("Try to attach an interrupt");
+  //sendDebugMsg("Interrupt");
   //attachInterrupt(digitalPinToInterrupt(9), updateDisplay, RISING);
 
   // Set dust sensor
-  Serial.println("Set Pmsx003");
+  sendDebugMsg("Pms7003");
   pms.begin();
   pms.waitForData(Pmsx003::wakeupTime);
   pms.write(Pmsx003::cmdModeActive);
 
   // Start WiFi
-  Serial.println("Start WiFi");
+  sendDebugMsg("WiFi");
   initWiFi();
 
   // Start SPIFFS
-  Serial.println("Start SPIFFS");
+  sendDebugMsg("SPIFFS");
   SPIFFS.begin();
   File f = SPIFFS.open("/test.txt", "r");
   if (f)
@@ -179,7 +196,10 @@ void setup(void)
     Serial.println("File open failed");
   }
 
-  f.println();
+  while(f.available() > 0)
+  {
+    Serial.write(f.read());
+  }
 }
 
 void loop(void)
