@@ -7,6 +7,8 @@
 #include <ESP8266WebServer.h>
 #include "FS.h"
 
+#define PMS7003_SET_PIN 10
+
 const char* ssid = "Wyspa Szczura";
 const char* password = "hejpiast";
 String page = "";
@@ -175,6 +177,11 @@ void setup(void)
 
   // Set dust sensor
   sendDebugMsg("Pms7003");
+  // Set pin as output
+  pinMode(PMS7003_SET_PIN, OUTPUT);
+  // Turn on sensor
+  digitalWrite(PMS7003_SET_PIN, LOW);
+  
   pms.begin();
   pms.waitForData(Pmsx003::wakeupTime);
   pms.write(Pmsx003::cmdModeActive);
@@ -186,7 +193,7 @@ void setup(void)
   // Start SPIFFS
   sendDebugMsg("SPIFFS");
   SPIFFS.begin();
-  File f = SPIFFS.open("/test.txt", "r");
+  File f = SPIFFS.open("/index.html", "r");
   if (f)
   {
     Serial.println("File open success");
@@ -200,6 +207,12 @@ void setup(void)
   {
     Serial.write(f.read());
   }
+
+  u8g2.clearBuffer();
+  u8g2.setFont(u8g2_font_logisoso16_tf);
+  u8g2.setCursor(0, 35);
+  u8g2.print("Init OK");
+  u8g2.sendBuffer();
 }
 
 void loop(void)
