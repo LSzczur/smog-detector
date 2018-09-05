@@ -10,11 +10,6 @@ void setup(void)
 
 void loop(void)
 {
-  // Pmsx003::PmsStatus status = updateData();
-  // if (Pmsx003::OK == status)
-  // {
-  //   updateDisplay();
-  // }
-  // server.handleClient();
+  smogDetector.Loop();
 }
 

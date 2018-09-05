@@ -2,8 +2,7 @@
 #include <SPI.h>
 
 SmogDetector::SmogDetector() :
-    u8g2( U8G2_R0, /* clock=*/14, /* data=*/16, /* cs=*/12, /* dc=*/13 ),
-    pms( /* RX=*/5, /* TX=*/4 )
+    oled()
 {
 }
 
@@ -19,10 +18,12 @@ bool SmogDetector::Initialize()
     {
     };
 
+    // oled.Test();
+
     // Set OLED display
-    Serial.println( "Set OLED" );
-    SPI.begin();
-    u8g2.begin();
+    // Serial.println( "Set OLED" );
+    // SPI.begin();
+    // u8g2.begin();
 
     //     // Attach an interrupt to button
     //   //sendDebugMsg("Interrupt");
@@ -66,4 +67,14 @@ bool SmogDetector::Initialize()
     //   u8g2.setCursor(0, 35);
     //   u8g2.print("Init OK");
     //   u8g2.sendBuffer();
+}
+
+bool SmogDetector::Loop()
+{
+    Pmsx003::PmsStatus status = sensor.updateData();
+    if ( Pmsx003::OK == status )
+    {
+        oled.updateDisplay();
+    }
+    //server.handleClient();
 }

@@ -2,8 +2,8 @@
 #define SMOGDETECTOR_HPP
 
 #include <Arduino.h>
-#include <pms.h>
-#include <U8g2lib.h>
+#include "Oled.hpp"
+#include "DustSensor.hpp"
 
 class SmogDetector
 {
@@ -17,12 +17,16 @@ public:
     // Initialize module
     bool Initialize();
 
+    // Loop
+    bool Loop();
+
 private:
     // OLED display object
-    U8G2_SSD1327_MIDAS_128X128_F_4W_SW_SPI u8g2;
+    Oled oled;
 
     // PMS7003 dust sensor object
-    Pmsx003 pms;
+    DustSensor sensor;
+
 };
 
 #endif

@@ -12,7 +12,7 @@
 const char* ssid = "Wyspa Szczura";
 const char* password = "hejpiast";
 String page = "";
-String text = "";
+String text = "";1
 
 const auto n = Pmsx003::Reserved;
 auto lastRead = millis();
