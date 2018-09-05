@@ -71,10 +71,10 @@ bool SmogDetector::Initialize()
 
 bool SmogDetector::Loop()
 {
-    Pmsx003::PmsStatus status = sensor.updateData();
+    Pmsx003::PmsStatus status = sensor.UpdateData();
     if ( Pmsx003::OK == status )
     {
-        oled.updateDisplay();
+        oled.UpdateDisplay(sensor.GetDataStructure());
     }
     //server.handleClient();
 }

@@ -3,6 +3,7 @@
 
 #include <Arduino.h>
 #include <pms.h>
+#include "DataStructure.hpp"
 
 class DustSensor
 {
@@ -14,14 +15,20 @@ public:
     ~DustSensor();
 
     // Update dust sensor data
-    Pmsx003::PmsStatus updateData();
+    Pmsx003::PmsStatus UpdateData();
+
+    // Get data Structure
+    DataStructure GetDataStructure();
 
 private:
+    //@TODO Rewrite to operator=
+    void Rewrite(uint16_t data[]);
+
     // PMS7003 dust sensor object
     Pmsx003 pms;
 
-    uint16_t data[Pmsx003::Reserved];
-
+    // Structure contain PMS data
+    DataStructure dataStructure;
 };
 
 #endif

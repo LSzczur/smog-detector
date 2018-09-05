@@ -3,6 +3,7 @@
 
 #include <Arduino.h>
 #include <U8g2lib.h>
+#include "DataStructure.hpp"
 
 class Oled
 {
@@ -14,7 +15,7 @@ public:
     ~Oled();
 
     // Update display
-    void updateDisplay();
+    void UpdateDisplay(DataStructure data);
 
 private:
     // OLED display object

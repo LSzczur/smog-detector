@@ -12,18 +12,20 @@ Oled::~Oled()
 {
 }
 
-void Oled::updateDisplay()
+void Oled::UpdateDisplay(DataStructure data)
 {
-    static uint8_t n;
-
-    Serial.print( "OLED TEST" );
+    Serial.print( "OLED PRINT" );
 
     u8g2.clearBuffer();
     u8g2.setFont( u8g2_font_logisoso16_tf );
     u8g2.setCursor( 0, 35 );
-    u8g2.print( "OLED TEST" );
+    u8g2.print( "PM 1.0 = " );
+    u8g2.print( data.PM1dot0 );
     u8g2.setCursor( 0, 70 );
-    u8g2.print( n );
-    n++;
+    u8g2.print( "PM 2.5 = " );
+    u8g2.print( data.PM2dot5 );
+    u8g2.setCursor( 0, 105 );
+    u8g2.print( "PM 10 = " );
+    u8g2.print( data.PM10dot0 );
     u8g2.sendBuffer();
 }
