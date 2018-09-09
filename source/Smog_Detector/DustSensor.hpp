@@ -21,9 +21,6 @@ public:
     DataStructure GetDataStructure();
 
 private:
-    //@TODO Rewrite to operator=
-    void Rewrite(uint16_t data[]);
-
     // PMS7003 dust sensor object
     Pmsx003 pms;
 

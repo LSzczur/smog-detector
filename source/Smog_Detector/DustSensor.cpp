@@ -31,7 +31,8 @@ Pmsx003::PmsStatus DustSensor::UpdateData()
             // Skip the first three data (PM1dot0CF1, PM2dot5CF1, PM10CF1)
             for ( size_t i = Pmsx003::PM1dot0; i < Pmsx003::Reserved; ++i )
             {
-                Rewrite(data);
+                // Rewrite data to internal data structure
+                dataStructure = data;
                 Serial.print( data[i] );
                 Serial.print( "\t" );
                 Serial.print( Pmsx003::dataNames[i] );
@@ -55,17 +56,4 @@ Pmsx003::PmsStatus DustSensor::UpdateData()
 DataStructure DustSensor::GetDataStructure()
 {
     return dataStructure;
-}
-
-void DustSensor::Rewrite( uint16_t data[] )
-{
-    dataStructure.PM1dot0        = data[Pmsx003::PM1dot0];
-    dataStructure.PM2dot5        = data[Pmsx003::PM2dot5];
-    dataStructure.PM10dot0       = data[Pmsx003::PM10dot0];
-    dataStructure.Particles0dot3 = data[Pmsx003::Particles0dot3];
-    dataStructure.Particles0dot5 = data[Pmsx003::Particles0dot5];
-    dataStructure.Particles1dot0 = data[Pmsx003::Particles1dot0];
-    dataStructure.Particles2dot5 = data[Pmsx003::Particles2dot5];
-    dataStructure.Particles5dot0 = data[Pmsx003::Particles5dot0];
-    dataStructure.Particles10    = data[Pmsx003::Particles10];
 }
