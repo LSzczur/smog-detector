@@ -14,6 +14,9 @@ public:
     // Destructor
     ~Oled();
 
+    // Initialize an object
+    void Initialize();
+
     // Update display
     void UpdateDisplay(DataStructure data);
 

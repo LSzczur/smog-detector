@@ -14,6 +14,9 @@ public:
     // Destructor
     ~DustSensor();
 
+    // Initialize an object
+    void Initialize();
+
     // Update dust sensor data
     Pmsx003::PmsStatus UpdateData();
 

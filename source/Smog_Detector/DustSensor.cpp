@@ -9,6 +9,13 @@ DustSensor::~DustSensor()
 {
 }
 
+void DustSensor::Initialize()
+{
+    pms.begin();
+    pms.waitForData(Pmsx003::wakeupTime);
+    pms.write(Pmsx003::cmdModeActive);
+}
+
 Pmsx003::PmsStatus DustSensor::UpdateData()
 {
     // Temporary table to use in library

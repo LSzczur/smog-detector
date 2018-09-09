@@ -4,6 +4,7 @@
 #include <Arduino.h>
 #include "Oled.hpp"
 #include "DustSensor.hpp"
+#include "HttpServer.hpp"
 
 class SmogDetector
 {
@@ -26,6 +27,9 @@ private:
 
     // PMS7003 dust sensor object
     DustSensor sensor;
+
+    // HttpServer object
+    HttpServer httpServer;
 
 };
 
