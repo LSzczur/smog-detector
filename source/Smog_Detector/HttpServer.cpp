@@ -8,7 +8,7 @@ HttpServer::HttpServer() :
 {
 }
 
-void HttpServer::Initialize()
+IPAddress HttpServer::Initialize()
 {
     //begin WiFi connection
     WiFi.begin( HttpServer::ssid, HttpServer::password );
@@ -37,6 +37,8 @@ void HttpServer::Initialize()
     }
 
     server.serveStatic( "/", SPIFFS, "/" );
+
+    return WiFi.localIP();
 }
 
 void HttpServer::handleClient()

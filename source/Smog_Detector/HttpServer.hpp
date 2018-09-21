@@ -17,7 +17,7 @@ public:
     ~HttpServer();
 
     // Initialize an object
-    void Initialize();
+    IPAddress Initialize();
 
     void handleClient();
 
