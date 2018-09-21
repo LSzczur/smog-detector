@@ -18,39 +18,14 @@ bool SmogDetector::Initialize()
 
     oled.Initialize();
     sensor.Initialize();
-    httpServer.Initialize();
+    IPAddress ip = httpServer.Initialize();
+    oled.SetIPAddress(ip);
 
-    //     // Attach an interrupt to button
-    //   //sendDebugMsg("Interrupt");
-    //   //attachInterrupt(digitalPinToInterrupt(9), updateDisplay, RISING);
+    // Attach an interrupt to button
+    attachInterrupt(digitalPinToInterrupt(9),
+                    SmogDetector::InterruptHandler,
+                    RISING);
 
-    //   // Start WiFi
-    //   sendDebugMsg("WiFi");
-    //   initWiFi();
-
-    //   // Start SPIFFS
-    //   sendDebugMsg("SPIFFS");
-    //   SPIFFS.begin();
-    //   File f = SPIFFS.open("/index.html", "r");
-    //   if (f)
-    //   {
-    //     Serial.println("File open success");
-    //   }
-    //   else
-    //   {
-    //     Serial.println("File open failed");
-    //   }
-
-    //   while(f.available() > 0)
-    //   {
-    //     Serial.write(f.read());
-    //   }
-
-    //   u8g2.clearBuffer();
-    //   u8g2.setFont(u8g2_font_logisoso16_tf);
-    //   u8g2.setCursor(0, 35);
-    //   u8g2.print("Init OK");
-    //   u8g2.sendBuffer();
 }
 
 bool SmogDetector::Loop()
@@ -61,4 +36,12 @@ bool SmogDetector::Loop()
         oled.UpdateDisplay(sensor.GetDataStructure());
     }
     httpServer.handleClient();
+}
+
+void SmogDetector::InterruptHandler()
+{
+    static bool enabled = false;
+
+    Oled::SetEnabled(enabled);
+    enabled = !enabled;
 }

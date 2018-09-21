@@ -21,6 +21,8 @@ public:
     // Loop
     bool Loop();
 
+    static void InterruptHandler();
+
 private:
     // OLED display object
     Oled oled;
