@@ -4,6 +4,13 @@
 #include <Arduino.h>
 #include <pms.h>
 
+enum DataState
+{
+    PM1dot0 = 0,
+    PM2dot5 = 1,
+    PM10dot0 = 2
+};
+
 struct DataStructure
 {
     public:

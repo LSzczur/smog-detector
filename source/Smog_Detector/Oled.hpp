@@ -32,8 +32,11 @@ private:
     // IPAddress
     IPAddress ipaddress;
 
-    // 
+    // Is display in active state
     static bool isEnabled;
+
+    // Actual data on display
+    DataState state;
 };
 
 #endif
