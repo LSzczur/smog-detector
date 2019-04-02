@@ -3,7 +3,7 @@
 SmogDetector::SmogDetector() :
     oled(),
     sensor(),
-    httpServer()
+    mqttHandle()
 {
 }
 
@@ -18,7 +18,7 @@ bool SmogDetector::Initialize()
 
     oled.Initialize();
     sensor.Initialize();
-    IPAddress ip = httpServer.Initialize();
+    const IPAddress ip = mqttHandle.Initialize();
     oled.SetIPAddress(ip);
 
     // Attach an interrupt to button
@@ -35,7 +35,8 @@ bool SmogDetector::Loop()
     {
         oled.UpdateDisplay(sensor.GetDataStructure());
     }
-    httpServer.handleClient();
+    mqttHandle.Loop();
+    //httpServer.handleClient();
 }
 
 void SmogDetector::InterruptHandler()
