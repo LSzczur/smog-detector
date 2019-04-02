@@ -21,7 +21,8 @@ public:
     // Loop
     bool Loop();
 
-    static void InterruptHandler();
+    // Button interrupt handler (hardware change needed)
+    // static void InterruptHandler();
 
 private:
     // OLED display object
