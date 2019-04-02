@@ -37,8 +37,8 @@ void MQTTHandle::Loop()
 
 IPAddress MQTTHandle::WiFiInitialize()
 {
-    // Set host name
-    WiFi.hostname( MQTTHandle::hostName );
+    // Set and print host name
+    Serial.println( "Hostname: " + WiFi.hostname( MQTTHandle::hostName ) );
     // Begin WiFi connection
     WiFi.begin( MQTTHandle::ssid, MQTTHandle::password );
     // Wait for a connection to be established
