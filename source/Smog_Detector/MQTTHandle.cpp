@@ -4,12 +4,15 @@ const char * MQTTHandle::ssid = "Wyspa Szczura";
 const char * MQTTHandle::password = "hejpiast";
 const char * MQTTHandle::hostName = "SMOG Detector";
 
-const char * MQTTHandle::brokerAddress = "192.168.88.200";
+IPAddress MQTTHandle::brokerAddress(192, 168, 88, 200);
 const int    MQTTHandle::brokerPort = 1883;
+const char * MQTTHandle::brokerLogin = "SmogDetector";
+const char * MQTTHandle::brokerPassword = "SmogIsBad";
 
 MQTTHandle::MQTTHandle() :
     wifiClient(),
-    mqttClient(wifiClient)
+    mqttClient(wifiClient),
+    lastReconnectAttempt(0)
 {
 }
 
@@ -28,11 +31,39 @@ IPAddress MQTTHandle::Initialize()
 void MQTTHandle::Callback(char * topic, byte * payload, unsigned int length)
 {
     // Callback
+    Serial.println("MQTT Callback!");
+
+    for(int i=0; i < length; ++i)
+    {
+        Serial.print(static_cast<char>(payload[i]));
+    }
+    Serial.println();
+
+    const std::string msg = "Hi!";
+    byte * pMsg = (byte *)malloc(msg.length());
+    memcpy(pMsg, payload, msg.length());
+    free(pMsg);
+
 }
 
 void MQTTHandle::Loop()
 {
-    mqttClient.loop();
+    if (mqttClient.connected())
+    {
+        mqttClient.loop();
+    }
+    else
+    {
+        long now = millis();
+        if (now - lastReconnectAttempt > 5000)
+        {
+            lastReconnectAttempt = now;
+            if (Reconnect())
+            {
+                lastReconnectAttempt = 0;
+            }
+        }
+    }
 }
 
 IPAddress MQTTHandle::WiFiInitialize()
@@ -61,4 +92,27 @@ void MQTTHandle::MQTTInitialize()
 {
     mqttClient.setServer(MQTTHandle::brokerAddress, MQTTHandle::brokerPort);
     mqttClient.setCallback(MQTTHandle::Callback);
+}
+
+bool MQTTHandle::Reconnect()
+{
+    if ( mqttClient.connect( MQTTHandle::hostName,
+                             MQTTHandle::brokerLogin,
+                             MQTTHandle::brokerPassword ) )
+    {
+        // Once connected, publish an announcement...
+        mqttClient.publish( "outTopic", "hello world" );
+        // ... and resubscribe
+        mqttClient.subscribe( "inTopic" );
+    }
+    else
+    {
+        Serial.print( "failed, rc=" );
+        Serial.print( mqttClient.state() );
+        Serial.println( " try again in 5 seconds" );
+        // Wait 5 seconds before retrying
+        delay( 5000 );
+    }
+
+    return mqttClient.connected();
 }

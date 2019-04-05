@@ -31,6 +31,9 @@ private:
     // Initialize MQTT object
     void MQTTInitialize();
 
+    // Reconnect MQTT
+    bool Reconnect();
+
     // ESP8266 WiFi client object
     WiFiClient wifiClient;
 
@@ -47,10 +50,19 @@ private:
     static const char * hostName;
 
     // MQTT server address
-    static const char * brokerAddress;
+    static IPAddress brokerAddress;
 
     // MQTT server port
     static const int brokerPort;
+
+    // MQTT broker login
+    static const char * brokerLogin;
+
+    // MQTT broker password
+    static const char * brokerPassword;
+
+    // Milliseconds since last reconnect attempt
+    long lastReconnectAttempt;
 
 };
 

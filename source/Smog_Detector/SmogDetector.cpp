@@ -35,7 +35,7 @@ bool SmogDetector::Loop()
     Pmsx003::PmsStatus status = sensor.UpdateData();
     if ( Pmsx003::OK == status )
     {
-        oled.UpdateDisplay(sensor.GetDataStructure());
+       oled.UpdateDisplay(sensor.GetDataStructure());
     }
     mqttHandle.Loop();
     //httpServer.handleClient();
