@@ -1,4 +1,5 @@
 #include "SmogDetector.hpp"
+#include "settings.h"
 
 SmogDetector::SmogDetector() :
     oled(),
@@ -33,11 +34,18 @@ bool SmogDetector::Initialize()
 bool SmogDetector::Loop()
 {
     Pmsx003::PmsStatus status = sensor.UpdateData();
-    if ( Pmsx003::OK == status )
-    {
-       oled.UpdateDisplay(sensor.GetDataStructure());
-    }
-    mqttHandle.Loop();
+
+    const DataStructure data = sensor.GetDataStructure();
+
+    // if ( Pmsx003::OK == status )
+    // {
+    //    oled.UpdateDisplay(data);
+    // }
+    mqttHandle.Loop(data);
+
+    const unsigned long millisecondsInSecond = 1000L;
+    const unsigned long delayTime = STAT_PERIOD * millisecondsInSecond;
+    delay(delayTime);
     //httpServer.handleClient();
 }
 

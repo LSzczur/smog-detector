@@ -5,6 +5,8 @@
 #include <PubSubClient.h>
 #include <ESP8266WiFi.h>
 
+#include "DataStructure.hpp"
+
 class MQTTHandle
 {
 public:
@@ -21,7 +23,7 @@ public:
     static void Callback(char * topic, byte * payload, unsigned int length);
 
     // MQTT Loop Handle
-    void Loop();
+    void Loop(const DataStructure dataToSend);
 
 private:
 
@@ -34,32 +36,14 @@ private:
     // Reconnect MQTT
     bool Reconnect();
 
+    // Publish data
+    void PublishData(const DataStructure dataToSend);
+
     // ESP8266 WiFi client object
     WiFiClient wifiClient;
 
     // MQTT client object
     PubSubClient mqttClient;
-
-    // WiFi ssid where sensor connect to
-    static const char* ssid;
-
-    // WiFi password where sensor connect to
-    static const char* password;
-
-    // WiFi host name
-    static const char * hostName;
-
-    // MQTT server address
-    static IPAddress brokerAddress;
-
-    // MQTT server port
-    static const int brokerPort;
-
-    // MQTT broker login
-    static const char * brokerLogin;
-
-    // MQTT broker password
-    static const char * brokerPassword;
 
     // Milliseconds since last reconnect attempt
     long lastReconnectAttempt;

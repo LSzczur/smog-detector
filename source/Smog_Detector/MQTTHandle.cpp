@@ -1,13 +1,6 @@
+#include <ArduinoJson.h>
 #include "MQTTHandle.hpp"
-
-const char * MQTTHandle::ssid = "Wyspa Szczura";
-const char * MQTTHandle::password = "hejpiast";
-const char * MQTTHandle::hostName = "SMOG Detector";
-
-IPAddress MQTTHandle::brokerAddress(192, 168, 88, 200);
-const int    MQTTHandle::brokerPort = 1883;
-const char * MQTTHandle::brokerLogin = "SmogDetector";
-const char * MQTTHandle::brokerPassword = "SmogIsBad";
+#include "settings.h"
 
 MQTTHandle::MQTTHandle() :
     wifiClient(),
@@ -31,26 +24,27 @@ IPAddress MQTTHandle::Initialize()
 void MQTTHandle::Callback(char * topic, byte * payload, unsigned int length)
 {
     // Callback
-    Serial.println("MQTT Callback!");
+    // Serial.println("MQTT Callback!");
 
-    for(int i=0; i < length; ++i)
-    {
-        Serial.print(static_cast<char>(payload[i]));
-    }
-    Serial.println();
+    // for(int i=0; i < length; ++i)
+    // {
+    //     Serial.print(static_cast<char>(payload[i]));
+    // }
+    // Serial.println();
 
-    const std::string msg = "Hi!";
-    byte * pMsg = (byte *)malloc(msg.length());
-    memcpy(pMsg, payload, msg.length());
-    free(pMsg);
+    // const std::string msg = "MQTT Callback!";
+    // byte * pMsg = (byte *)malloc(msg.length());
+    // memcpy(pMsg, payload, msg.length());
+    // free(pMsg);
 
 }
 
-void MQTTHandle::Loop()
+void MQTTHandle::Loop(const DataStructure dataToSend)
 {
     if (mqttClient.connected())
     {
         mqttClient.loop();
+        PublishData(dataToSend);
     }
     else
     {
@@ -69,9 +63,9 @@ void MQTTHandle::Loop()
 IPAddress MQTTHandle::WiFiInitialize()
 {
     // Set and print host name
-    Serial.println( "Hostname: " + WiFi.hostname( MQTTHandle::hostName ) );
+    Serial.println( "Hostname: " + WiFi.hostname( STA_HOST_NAME ) );
     // Begin WiFi connection
-    WiFi.begin( MQTTHandle::ssid, MQTTHandle::password );
+    WiFi.begin( STA_SSID, STA_PASS );
     // Wait for a connection to be established
     while ( WiFi.status() != WL_CONNECTED )
     {
@@ -81,7 +75,7 @@ IPAddress MQTTHandle::WiFiInitialize()
 
     Serial.println( "" );
     Serial.print( "Connected to " );
-    Serial.println( ssid );
+    Serial.println( STA_SSID );
     Serial.print( "IP address: " );
     Serial.println( WiFi.localIP() );
 
@@ -90,20 +84,18 @@ IPAddress MQTTHandle::WiFiInitialize()
 
 void MQTTHandle::MQTTInitialize()
 {
-    mqttClient.setServer(MQTTHandle::brokerAddress, MQTTHandle::brokerPort);
-    mqttClient.setCallback(MQTTHandle::Callback);
+    mqttClient.setServer( MQTT_HOST, MQTT_PORT );
+    mqttClient.setCallback( MQTTHandle::Callback );
 }
 
 bool MQTTHandle::Reconnect()
 {
-    if ( mqttClient.connect( MQTTHandle::hostName,
-                             MQTTHandle::brokerLogin,
-                             MQTTHandle::brokerPassword ) )
+    if ( mqttClient.connect( MQTT_HOST, MQTT_USER, MQTT_PASS ) )
     {
         // Once connected, publish an announcement...
-        mqttClient.publish( "outTopic", "hello world" );
+        mqttClient.publish( TELE_FULLTOPIC, "Connected to MQTT Host!" );
         // ... and resubscribe
-        mqttClient.subscribe( "inTopic" );
+        mqttClient.subscribe( SUB_FULLTOPIC );
     }
     else
     {
@@ -115,4 +107,20 @@ bool MQTTHandle::Reconnect()
     }
 
     return mqttClient.connected();
+}
+
+void MQTTHandle::PublishData(const DataStructure dataToSend)
+{
+    StaticJsonBuffer<200> jsonBuffer;
+    JsonObject& root = jsonBuffer.createObject();
+    root["PM1dot0"] = (String)dataToSend.PM1dot0;
+    root["PM2dot5"] = (String)dataToSend.PM2dot5;
+    root["PM10dot0"] = (String)dataToSend.PM10dot0;
+    Serial.println("Publish MQTT Message:");
+    root.prettyPrintTo(Serial);
+
+    char data[200];
+    root.printTo( data, root.measureLength() + 1) ;
+    mqttClient.publish( PUB_FULLTOPIC, data, true );
+    yield();
 }
