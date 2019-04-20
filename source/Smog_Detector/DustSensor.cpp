@@ -1,4 +1,5 @@
 #include "DustSensor.hpp"
+#include "settings.h"
 
 DustSensor::DustSensor() :
     pms( /* RX=*/5, /* TX=*/4 )
@@ -27,11 +28,15 @@ Pmsx003::PmsStatus DustSensor::UpdateData()
     {
         case Pmsx003::OK:
         {
+#if DEBUG_MODE
             Serial.println( "_________________" );
+#endif
             auto        newRead  = millis();
             static auto lastRead = 0;
+#if DEBUG_MODE
             Serial.print( "Wait time " );
             Serial.println( newRead - lastRead );
+#endif
             lastRead = newRead;
 
             // For loop starts from 3
@@ -40,6 +45,7 @@ Pmsx003::PmsStatus DustSensor::UpdateData()
             {
                 // Rewrite data to internal data structure
                 dataStructure = data;
+#if DEBUG_MODE
                 Serial.print( data[i] );
                 Serial.print( "\t" );
                 Serial.print( Pmsx003::dataNames[i] );
@@ -47,14 +53,18 @@ Pmsx003::PmsStatus DustSensor::UpdateData()
                 Serial.print( Pmsx003::metrics[i] );
                 Serial.print( "]" );
                 Serial.println();
+#endif
             }
             break;
         }
         case Pmsx003::noData:
             break;
         default:
+#if DEBUG_MODE
             Serial.println( "_________________" );
             Serial.println( Pmsx003::errorMsg[status] );
+#endif
+            break;
     }
 
     return status;

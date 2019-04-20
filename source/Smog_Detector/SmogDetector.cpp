@@ -15,7 +15,9 @@ SmogDetector::~SmogDetector()
 bool SmogDetector::Initialize()
 {
     // Set debug serial
+#if DEBUG_MODE
     Serial.begin( 115200 );
+#endif
 
     //oled.Initialize();
     sensor.Initialize();

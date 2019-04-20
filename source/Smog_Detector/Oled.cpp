@@ -1,4 +1,5 @@
 #include "Oled.hpp"
+#include "settings.h"
 #include <SPI.h>
 
 bool Oled::isEnabled = true;
