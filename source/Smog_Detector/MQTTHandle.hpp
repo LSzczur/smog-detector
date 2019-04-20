@@ -4,6 +4,7 @@
 #include <Arduino.h>
 #include <PubSubClient.h>
 #include <ESP8266WiFi.h>
+#include <Ticker.h>
 
 #include "DataStructure.hpp"
 
@@ -24,6 +25,8 @@ public:
 
     // MQTT Loop Handle
     void Loop(const DataStructure dataToSend);
+
+    static void Interrupt();
 
 private:
 
@@ -48,6 +51,11 @@ private:
     // Milliseconds since last reconnect attempt
     long lastReconnectAttempt;
 
+    // Interrupt handler object
+    Ticker ticker;
+
+    // Flag indicate timer overflow - mqqt data needs to be pushed
+    static bool isMqttReadyToSendData;
 };
 
 #endif

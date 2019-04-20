@@ -17,10 +17,10 @@ bool SmogDetector::Initialize()
     // Set debug serial
     Serial.begin( 115200 );
 
-    oled.Initialize();
+    //oled.Initialize();
     sensor.Initialize();
     const IPAddress ip = mqttHandle.Initialize();
-    oled.SetIPAddress(ip);
+    //oled.SetIPAddress(ip);
 
     // @TODO Pin 9 attached to watchdog
     // Needed change in hardware to make interrupt attach possible
@@ -28,7 +28,6 @@ bool SmogDetector::Initialize()
     //attachInterrupt(digitalPinToInterrupt(9),
     //                SmogDetector::InterruptHandler,
     //                RISING);
-
 }
 
 bool SmogDetector::Loop()
@@ -41,19 +40,14 @@ bool SmogDetector::Loop()
     // {
     //    oled.UpdateDisplay(data);
     // }
-    mqttHandle.Loop(data);
 
-    const unsigned long millisecondsInSecond = 1000L;
-    const unsigned long delayTime = STAT_PERIOD * millisecondsInSecond;
-    delay(delayTime);
-    //httpServer.handleClient();
+    mqttHandle.Loop(data);
 }
 
 //void SmogDetector::InterruptHandler()
 // {
-//     Serial.println("BOOM!");
-//     // static bool enabled = false;
+    // static bool enabled = false;
 
-//     // Oled::SetEnabled(enabled);
-//     // enabled = !enabled;
+    // Oled::SetEnabled(enabled);
+    // enabled = !enabled;
 // }

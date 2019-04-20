@@ -2,28 +2,41 @@
 #include "MQTTHandle.hpp"
 #include "settings.h"
 
+bool MQTTHandle::isMqttReadyToSendData = false;
+
 MQTTHandle::MQTTHandle() :
     wifiClient(),
     mqttClient(wifiClient),
-    lastReconnectAttempt(0)
+    lastReconnectAttempt(0),
+    ticker()
 {
 }
 
 MQTTHandle::~MQTTHandle()
 {
+    ticker.detach();
 }
 
 IPAddress MQTTHandle::Initialize()
 {
     const IPAddress ip = WiFiInitialize();
     MQTTInitialize();
+    
+    // ticker the pin every STAT_PERIOD [s]
+    ticker.attach(STAT_PERIOD, MQTTHandle::Interrupt);
 
     return ip;
 }
 
+void MQTTHandle::Interrupt()
+{
+    Serial.println("Timer interrupt reached!");
+    MQTTHandle::isMqttReadyToSendData = true;
+}
+
 void MQTTHandle::Callback(char * topic, byte * payload, unsigned int length)
 {
-    // Callback
+    // @TODO Callback implementation
     // Serial.println("MQTT Callback!");
 
     // for(int i=0; i < length; ++i)
@@ -44,7 +57,11 @@ void MQTTHandle::Loop(const DataStructure dataToSend)
     if (mqttClient.connected())
     {
         mqttClient.loop();
-        PublishData(dataToSend);
+        if (MQTTHandle::isMqttReadyToSendData)
+        {
+            PublishData(dataToSend);
+            MQTTHandle::isMqttReadyToSendData = false;
+        }
     }
     else
     {
@@ -90,6 +107,7 @@ void MQTTHandle::MQTTInitialize()
 
 bool MQTTHandle::Reconnect()
 {
+    Serial.print("Reconnect...");
     if ( mqttClient.connect( MQTT_HOST, MQTT_USER, MQTT_PASS ) )
     {
         // Once connected, publish an announcement...
@@ -106,6 +124,7 @@ bool MQTTHandle::Reconnect()
         delay( 5000 );
     }
 
+    Serial.println(mqttClient.connected());
     return mqttClient.connected();
 }
 

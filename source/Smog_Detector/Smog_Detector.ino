@@ -4,7 +4,7 @@
 SmogDetector smogDetector;
 
 void setup(void)
-{
+{ 
   smogDetector.Initialize();
 }
 
@@ -12,4 +12,3 @@ void loop(void)
 {
   smogDetector.Loop();
 }
-
