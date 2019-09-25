@@ -75,6 +75,9 @@ void MQTTHandle::Loop(const DataStructure dataToSend)
         if (now - lastReconnectAttempt > 5000)
         {
             lastReconnectAttempt = now;
+
+            //@TODO Remove
+            yield();
             if (Reconnect())
             {
                 lastReconnectAttempt = 0;

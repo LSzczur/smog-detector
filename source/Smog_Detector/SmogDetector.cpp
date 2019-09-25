@@ -38,6 +38,9 @@ bool SmogDetector::Loop()
 
     const DataStructure data = sensor.GetDataStructure();
 
+    //@TODO Remove
+    yield();
+
     // if ( Pmsx003::OK == status )
     // {
     //    oled.UpdateDisplay(data);
