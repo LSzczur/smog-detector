@@ -30,7 +30,7 @@ IPAddress MQTTHandle::Initialize()
 
 void MQTTHandle::Interrupt()
 {
-#if DEBUG_MODE
+#ifdef DEBUG_MODE
     Serial.println("Timer interrupt reached!");
 #endif
     MQTTHandle::isMqttReadyToSendData = true;
@@ -39,16 +39,16 @@ void MQTTHandle::Interrupt()
 void MQTTHandle::Callback(char * topic, byte * payload, unsigned int length)
 {
 ////     @TODO Callback implementation
-// #if DEBUG_MODE
+// #ifdef DEBUG_MODE
 //     Serial.println("MQTT Callback!");
 // #endif
 //     for(int i=0; i < length; ++i)
 //     {
-// #if DEBUG_MODE
+// #ifdef DEBUG_MODE
 //         Serial.print(static_cast<char>(payload[i]));
 // #endif
 //     }
-// #if DEBUG_MODE
+// #ifdef DEBUG_MODE
 //     Serial.println();
 // #endif
 
@@ -58,7 +58,7 @@ void MQTTHandle::Callback(char * topic, byte * payload, unsigned int length)
 //     free(pMsg);
 }
 
-void MQTTHandle::Loop(const DataStructure dataToSend)
+void MQTTHandle::Loop(const DataStructure& dataToSend)
 {
     if (mqttClient.connected())
     {
@@ -89,7 +89,7 @@ void MQTTHandle::Loop(const DataStructure dataToSend)
 IPAddress MQTTHandle::WiFiInitialize()
 {
     // Set and print host name
-#if DEBUG_MODE
+#ifdef DEBUG_MODE
     Serial.println( "Hostname: " + WiFi.hostname( STA_HOST_NAME ) );
 #endif
     // Begin WiFi connection
@@ -98,12 +98,12 @@ IPAddress MQTTHandle::WiFiInitialize()
     while ( WiFi.status() != WL_CONNECTED )
     {
         delay( 500 );
-#if DEBUG_MODE
+#ifdef DEBUG_MODE
         Serial.print( "." );
 #endif
     }
 
-#if DEBUG_MODE
+#ifdef DEBUG_MODE
     Serial.println( "" );
     Serial.print( "Connected to " );
     Serial.println( STA_SSID );
@@ -122,7 +122,7 @@ void MQTTHandle::MQTTInitialize()
 
 bool MQTTHandle::Reconnect()
 {
-#if DEBUG_MODE
+#ifdef DEBUG_MODE
     Serial.print("Reconnect...");
 #endif
     if ( mqttClient.connect( MQTT_HOST, MQTT_USER, MQTT_PASS ) )
@@ -134,7 +134,7 @@ bool MQTTHandle::Reconnect()
     }
     else
     {
-#if DEBUG_MODE
+#ifdef DEBUG_MODE
         Serial.print( "failed, rc=" );
         Serial.print( mqttClient.state() );
         Serial.println( " try again in 5 seconds" );
@@ -143,7 +143,7 @@ bool MQTTHandle::Reconnect()
         delay( 5000 );
     }
 
-#if DEBUG_MODE
+#ifdef DEBUG_MODE
     Serial.println(mqttClient.connected());
 #endif
 
@@ -157,7 +157,7 @@ void MQTTHandle::PublishData(const DataStructure dataToSend)
     root["PM1dot0"] = (String)dataToSend.PM1dot0;
     root["PM2dot5"] = (String)dataToSend.PM2dot5;
     root["PM10dot0"] = (String)dataToSend.PM10dot0;
-#if DEBUG_MODE
+#ifdef DEBUG_MODE
     Serial.println("Publish MQTT Message:");
     root.prettyPrintTo(Serial);
 #endif

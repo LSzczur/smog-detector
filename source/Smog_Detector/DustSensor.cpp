@@ -24,28 +24,27 @@ Pmsx003::PmsStatus DustSensor::UpdateData()
 
     Pmsx003::PmsStatus status = pms.read( data, Pmsx003::Reserved );
 
+#ifdef DEBUG_MODE
+    auto        newRead  = millis();
+    static auto lastRead = 0;
+#endif
+
     switch ( status )
     {
         case Pmsx003::OK:
-        {
-#if DEBUG_MODE
+            // Rewrite data to internal data structure
+            dataStructure = data;
+#ifdef DEBUG_MODE
             Serial.println( "_________________" );
-#endif
-            auto        newRead  = millis();
-            static auto lastRead = 0;
-#if DEBUG_MODE
+            newRead = millis();
             Serial.print( "Wait time " );
             Serial.println( newRead - lastRead );
-#endif
             lastRead = newRead;
 
             // For loop starts from 3
             // Skip the first three data (PM1dot0CF1, PM2dot5CF1, PM10CF1)
             for ( size_t i = Pmsx003::PM1dot0; i < Pmsx003::Reserved; ++i )
             {
-                // Rewrite data to internal data structure
-                dataStructure = data;
-#if DEBUG_MODE
                 Serial.print( data[i] );
                 Serial.print( "\t" );
                 Serial.print( Pmsx003::dataNames[i] );
@@ -53,14 +52,13 @@ Pmsx003::PmsStatus DustSensor::UpdateData()
                 Serial.print( Pmsx003::metrics[i] );
                 Serial.print( "]" );
                 Serial.println();
-#endif
             }
+#endif
             break;
-        }
         case Pmsx003::noData:
             break;
         default:
-#if DEBUG_MODE
+#ifdef DEBUG_MODE
             Serial.println( "_________________" );
             Serial.println( Pmsx003::errorMsg[status] );
 #endif
@@ -70,7 +68,7 @@ Pmsx003::PmsStatus DustSensor::UpdateData()
     return status;
 }
 
-DataStructure DustSensor::GetDataStructure()
+DataStructure& DustSensor::GetDataStructure()
 {
     return dataStructure;
 }

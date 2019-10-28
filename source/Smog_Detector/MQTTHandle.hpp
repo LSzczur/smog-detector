@@ -24,7 +24,7 @@ public:
     static void Callback(char * topic, byte * payload, unsigned int length);
 
     // MQTT Loop Handle
-    void Loop(const DataStructure dataToSend);
+    void Loop(const DataStructure& dataToSend);
 
     static void Interrupt();
 

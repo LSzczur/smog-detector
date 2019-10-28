@@ -15,14 +15,16 @@ SmogDetector::~SmogDetector()
 bool SmogDetector::Initialize()
 {
     // Set debug serial
-#if DEBUG_MODE
+#ifdef DEBUG_MODE
     Serial.begin( 115200 );
 #endif
 
-    //oled.Initialize();
     sensor.Initialize();
     const IPAddress ip = mqttHandle.Initialize();
-    //oled.SetIPAddress(ip);
+#ifdef OLED_MODE
+    oled.Initialize();
+    oled.SetIPAddress(ip);
+#endif
 
     // @TODO Pin 9 attached to watchdog
     // Needed change in hardware to make interrupt attach possible
@@ -39,12 +41,14 @@ bool SmogDetector::Loop()
     const DataStructure data = sensor.GetDataStructure();
 
     //@TODO Remove
-    yield();
+    //yield();
 
-    // if ( Pmsx003::OK == status )
-    // {
-    //    oled.UpdateDisplay(data);
-    // }
+#ifdef OLED_MODE
+    if ( Pmsx003::OK == status )
+    {
+       oled.UpdateDisplay(data);
+    }
+#endif
 
     mqttHandle.Loop(data);
 }

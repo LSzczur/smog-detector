@@ -21,7 +21,7 @@ public:
     Pmsx003::PmsStatus UpdateData();
 
     // Get data Structure
-    DataStructure GetDataStructure();
+    DataStructure& GetDataStructure();
 
 private:
     // PMS7003 dust sensor object
