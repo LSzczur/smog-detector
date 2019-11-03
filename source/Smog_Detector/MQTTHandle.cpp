@@ -92,6 +92,7 @@ IPAddress MQTTHandle::WiFiInitialize()
 #ifdef DEBUG_MODE
     Serial.println( "Hostname: " + WiFi.hostname( STA_HOST_NAME ) );
 #endif
+    WiFi.mode( WIFI_STA );
     // Begin WiFi connection
     WiFi.begin( STA_SSID, STA_PASS );
     // Wait for a connection to be established
@@ -141,6 +142,8 @@ bool MQTTHandle::Reconnect()
 #endif
         // Wait 5 seconds before retrying
         delay( 5000 );
+
+        yield();
     }
 
 #ifdef DEBUG_MODE
