@@ -40,7 +40,7 @@ private:
     bool Reconnect();
 
     // Publish data
-    void PublishData(const DataStructure dataToSend);
+    void PublishData(const DataStructure& dataToSend);
 
     // ESP8266 WiFi client object
     WiFiClient wifiClient;

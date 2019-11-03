@@ -2,7 +2,8 @@
 #include "settings.h"
 
 DustSensor::DustSensor() :
-    pms( /* RX=*/5, /* TX=*/4 )
+    pms( /* RX=*/5, /* TX=*/4 ),
+    dataStructure()
 {
 }
 

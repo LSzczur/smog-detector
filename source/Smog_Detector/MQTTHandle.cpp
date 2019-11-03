@@ -153,7 +153,7 @@ bool MQTTHandle::Reconnect()
     return mqttClient.connected();
 }
 
-void MQTTHandle::PublishData(const DataStructure dataToSend)
+void MQTTHandle::PublishData(const DataStructure& dataToSend)
 {
     StaticJsonBuffer<200> jsonBuffer;
     JsonObject& root = jsonBuffer.createObject();
