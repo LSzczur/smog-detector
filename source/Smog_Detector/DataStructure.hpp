@@ -15,8 +15,8 @@ struct DataStructure
 {
     public:
         DataStructure() = default;
-
-        DataStructure& operator=( const uint16_t data[] )
+        DataStructure( const DataStructure& rval ) = default;
+        explicit DataStructure( const uint16_t data[] )
         {
             PM1dot0        = data[Pmsx003::PM1dot0];
             PM2dot5        = data[Pmsx003::PM2dot5];
@@ -27,8 +27,6 @@ struct DataStructure
             Particles2dot5 = data[Pmsx003::Particles2dot5];
             Particles5dot0 = data[Pmsx003::Particles5dot0];
             Particles10    = data[Pmsx003::Particles10];
-
-            return *this;
         }
 
         uint16_t PM1dot0;        //  3

@@ -34,7 +34,7 @@ Pmsx003::PmsStatus DustSensor::UpdateData()
     {
         case Pmsx003::OK:
             // Rewrite data to internal data structure
-            dataStructure = data;
+            dataStructure = DataStructure(data);
 #ifdef DEBUG_MODE
             Serial.println( "_________________" );
             newRead = millis();
