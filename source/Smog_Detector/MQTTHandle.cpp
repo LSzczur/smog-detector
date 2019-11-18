@@ -76,8 +76,7 @@ void MQTTHandle::Loop(const DataStructure& dataToSend)
         {
             lastReconnectAttempt = now;
 
-            //@TODO Remove
-            yield();
+            LocalYield();
             if (Reconnect())
             {
                 lastReconnectAttempt = 0;
@@ -98,7 +97,7 @@ IPAddress MQTTHandle::WiFiInitialize()
     // Wait for a connection to be established
     while ( WiFi.status() != WL_CONNECTED )
     {
-        delay( 500 );
+        LocalDelay( 500 );
 #ifdef DEBUG_MODE
         Serial.print( "." );
 #endif
@@ -141,9 +140,7 @@ bool MQTTHandle::Reconnect()
         Serial.println( " try again in 5 seconds" );
 #endif
         // Wait 5 seconds before retrying
-        delay( 5000 );
-
-        yield();
+        LocalDelay( 5000 );
     }
 
 #ifdef DEBUG_MODE
@@ -168,5 +165,24 @@ void MQTTHandle::PublishData(const DataStructure& dataToSend)
     char data[200];
     root.printTo( data, root.measureLength() + 1) ;
     mqttClient.publish( PUB_FULLTOPIC, data, true );
+    LocalYield();
+}
+
+void MQTTHandle::LocalYield()
+{
     yield();
+    mqttClient.loop();
+}
+
+void MQTTHandle::LocalDelay(unsigned long millisecs)
+{
+  unsigned long start = millis();
+  LocalYield();
+  if (millisecs > 0)
+  {
+    while (millis() - start < millisecs)
+    {
+      LocalYield();
+    }
+  }
 }

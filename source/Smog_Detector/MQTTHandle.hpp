@@ -42,6 +42,12 @@ private:
     // Publish data
     void PublishData(const DataStructure& dataToSend);
 
+    // Local yield function including mqttClient connection handle
+    void LocalYield();
+
+    // Local delay function using LocalYield
+    void LocalDelay(unsigned long millisecs);
+
     // ESP8266 WiFi client object
     WiFiClient wifiClient;
 
